@@ -5,7 +5,12 @@
 
 /////////////////////////////
 /*This looks like a good place to declare any state or global variables you might need*/
-
+const API =
+  "https://fsa-puppy-bowl.herokuapp.com/api/2605-ftb-et-web-ft-corynne";
+let players = [];
+let playerId = "";
+let selectedPlayer = null;
+//
 ////////////////////////////
 
 /**
@@ -14,9 +19,17 @@
  * Instead, this function should be keeping our state up to date
  */
 const fetchAllPlayers = async () => {
-  //TODO
+  try {
+    const response = await fetch(API + "/players");
+    const result = await response.json();
+    players = result.data;
+    console.log(players);
+    return players;
+    render();
+  } catch (e) {
+    console.error(e);
+  }
 };
-
 /**
  * Fetches a single player from the API.
  * This function should not be doing any rendering
@@ -28,9 +41,24 @@ const fetchAllPlayers = async () => {
  * Unless we know the id of the player we are trying to fetch, we cannot call fetchSinglePlayer()
  */
 const fetchSinglePlayer = async (playerId) => {
-  //TODO
+  try {
+    const response = await fetch(
+      `https://fsa-puppy-bowl.herokuapp.com/api/2605-ftb-et-web-ft-corynne/players/${id}`,
+    );
+    const result = await response.json();
+    selectedPlayer = result.data;
+    console.log(fetchSinglePlayer());
+    render();
+  } catch (e) {
+    console.error(e);
+  }
 };
+/* function listPlayers() {
+  const $ul = document.createElement("ul");
+  $ul.replaceChildren.add("players");
 
+  const $players = players.map();
+} */
 /**
  * Adds a new player to the roster via the API.
  * Once a player is added to the database, the new player
@@ -81,15 +109,31 @@ const removePlayer = async (playerId) => {
  *    from the database and our current view without having to refresh
  *
  */
-const render = () => {
-  // TODO
-};
 
+const render = () => {
+  const $app = document.querySelector("#app");
+  $app.innerHTML = `
+  <h1>Puppy Bowl Team Manager</h1>
+  <main>
+    <section>
+     <h2>Meet the Athletes!</h2>
+     <Athletes></Athletes>
+    </section>
+    <section id= "selected">
+    <h2>Athlete Specs</h2>
+    <SelectedAthlete></SelectedAthlete>
+    </section>
+  </main>`;
+  $app.querySelector("Athletes").replaceWith(async(fetchAllPlayers())); //change to relevant function when/if it exits
+  $app.querySelector("SelectedAthlete").replaceWith(fetchSinglePlayer()); //change to relevant function when/if it exits
+};
 /**
  * Initializes the app by calling render
  * HOWEVER....
  */
 const init = async () => {
+  await fetchAllPlayers();
+  await fetchSinglePlayer();
   //Before we render, what do we always need?
 
   render();
