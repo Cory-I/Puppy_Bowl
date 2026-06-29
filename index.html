@@ -1,12 +1,22 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title></title>
+    <title>Puppy Bowl Team Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="index.js" defer></script>
   </head>
+
   <body>
     <div id="app"></div>
+
+    <!-- Add Player Form -->
+    <form id="addPuppy">
+      <h2>Add a New Player</h2>
+      <input name="name" placeholder="Name" required />
+      <input name="breed" placeholder="Breed" required />
+      <input name="imageUrl" placeholder="Image URL" required />
+      <button type="submit">Add Player</button>
+    </form>
   </body>
 </html>

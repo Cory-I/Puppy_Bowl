@@ -1,0 +1,195 @@
+body {
+  background: #590505;
+  color: rgb(248, 240, 240);
+}
+img {
+  margin: 1.5rem;
+  min-width: 30%;
+  max-width: 45%;
+}
+ul li a img {
+  width: 0.75rem;
+  margin: 0;
+}
+main {
+  display: grid;
+  grid-template-columns: 1fr, 2fr;
+  grid-template-rows: 1;
+}
+section#selected {
+  display: grid;
+  grid-row: 1;
+  grid-column: 2;
+  background: #590505;
+}
+section#list {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  width: 35vw;
+  grid-row: 1;
+  grid-column: 1;
+  background: #330202;
+}
+
+ul li a {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: none;
+  color: rgb(248, 240, 240);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  padding: 0.25rem;
+}
+
+h1 {
+  margin: 1.5rem;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  align-self: center;
+}
+h2 {
+  margin: 1.5rem;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  align-self: center;
+}
+h3 {
+  margin: 1.5rem;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 1.5rem;
+}
+p {
+  margin: 1.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+li.selected a {
+  text-decoration: none;
+}
+ul {
+  list-style-type: none;
+}
+.players {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+}
+
+/* {
+THE CORRECT NUMBER OF PUPPIES - please igore, for testing only. 
+  "success": true,
+  "error": null,
+  "data": {
+    "players": [
+      {
+        "id": 56877,
+        "name": "Anise",
+        "breed": "Australian Cattle Dog / Labrador Retriever",
+        "status": "field",
+        "imageUrl": "http://r.ddmcdn.com/w_912/s_f/o_1/cx_51/cy_0/cw_912/ch_1368/APL/uploads/2019/12/Anise-PBXVI.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14028,
+        "cohortId": 13581
+      },
+      {
+        "id": 56878,
+        "name": "Bert",
+        "breed": "Great Pyrenees / Weimaraner",
+        "status": "field",
+        "imageUrl": "http://r.ddmcdn.com/w_1010/s_f/o_1/cx_0/cy_4/cw_1010/ch_1515/APL/uploads/2019/12/Bert-PBXVI.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14028,
+        "cohortId": 13581
+      },
+      {
+        "id": 56879,
+        "name": "Crumpet",
+        "breed": "American Staffordshire Terrier",
+        "status": "field",
+        "imageUrl": "http://r.ddmcdn.com/w_1012/s_f/o_1/cx_0/cy_0/cw_1012/ch_1518/APL/uploads/2019/12/Crumpet-PBXVI.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14028,
+        "cohortId": 13581
+      },
+      {
+        "id": 56880,
+        "name": "Daphne",
+        "breed": "German Shepherd",
+        "status": "field",
+        "imageUrl": "http://r.ddmcdn.com/w_960/s_f/o_1/cx_25/cy_0/cw_960/ch_1440/APL/uploads/2020/01/Daphne-PBXVI.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14027,
+        "cohortId": 13581
+      },
+      {
+        "id": 56881,
+        "name": "Duncan",
+        "breed": "Collie",
+        "status": "field",
+        "imageUrl": "http://r.ddmcdn.com/w_1012/s_f/o_1/cx_0/cy_49/cw_1012/ch_1518/APL/uploads/2020/01/Duncan-PBXVI-v2.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14027,
+        "cohortId": 13581
+      },
+      {
+        "id": 56882,
+        "name": "Filbert",
+        "breed": "Shetland Sheepdog / Border Collie",
+        "status": "field",
+        "imageUrl": "http://r.ddmcdn.com/w_942/s_f/o_1/cx_35/cy_0/cw_942/ch_1413/APL/uploads/2019/12/Filbert-PBXVI.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14027,
+        "cohortId": 13581
+      },
+      {
+        "id": 56883,
+        "name": "Gina",
+        "breed": "Labrador Retriever / Chow Chow",
+        "status": "bench",
+        "imageUrl": "http://r.ddmcdn.com/w_1012/s_f/o_1/cx_0/cy_0/cw_1012/ch_1518/APL/uploads/2019/12/Gina-PBXVI.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14028,
+        "cohortId": 13581
+      },
+      {
+        "id": 56884,
+        "name": "Huck",
+        "breed": "Miniature Poodle / Shih Tzu",
+        "status": "bench",
+        "imageUrl": "http://r.ddmcdn.com/w_962/s_f/o_1/cx_25/cy_0/cw_962/ch_1443/APL/uploads/2019/12/Huck-PBXVI.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14028,
+        "cohortId": 13581
+      },
+      {
+        "id": 56885,
+        "name": "Jack",
+        "breed": "Chihuahua / Miniature Poodle",
+        "status": "bench",
+        "imageUrl": "http://r.ddmcdn.com/w_926/s_f/o_1/cx_42/cy_0/cw_926/ch_1389/APL/uploads/2019/12/Jack-PBXVI.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14027,
+        "cohortId": 13581
+      },
+      {
+        "id": 56886,
+        "name": "Kenny",
+        "breed": "Golden Retriever / Boxer",
+        "status": "bench",
+        "imageUrl": "http://r.ddmcdn.com/w_1012/s_f/o_1/cx_0/cy_0/cw_1012/ch_1518/APL/uploads/2019/12/Kenny-PBXVI.jpg",
+        "createdAt": "2026-06-26T15:53:04.717Z",
+        "updatedAt": "2026-06-26T15:53:04.717Z",
+        "teamId": 14027,
+        "cohortId": 13581
+      }
+    ]
+  }
+} */

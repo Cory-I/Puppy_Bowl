@@ -8,9 +8,7 @@
 const API =
   "https://fsa-puppy-bowl.herokuapp.com/api/2605-ftb-et-web-ft-corynne";
 let players = [];
-let playerId = "";
 let selectedPlayer = null;
-//
 ////////////////////////////
 
 /**
@@ -18,18 +16,16 @@ let selectedPlayer = null;
  * This function should not be doing any rendering
  * Instead, this function should be keeping our state up to date
  */
-const fetchAllPlayers = async () => {
+
+async function fetchAllPlayers() {
   try {
-    const response = await fetch(API + "/players");
+    const response = await fetch(`${API}/players`);
     const result = await response.json();
-    players = result.data;
-    console.log(players);
-    return players;
-    render();
-  } catch (e) {
-    console.error(e);
+    players = result.data.players;
+  } catch (err) {
+    console.error(err);
   }
-};
+}
 /**
  * Fetches a single player from the API.
  * This function should not be doing any rendering
@@ -40,25 +36,16 @@ const fetchAllPlayers = async () => {
  * Note: In order to call fetchSinglePlayer() a player's id is required.
  * Unless we know the id of the player we are trying to fetch, we cannot call fetchSinglePlayer()
  */
-const fetchSinglePlayer = async (playerId) => {
+async function fetchSinglePlayer(id) {
   try {
-    const response = await fetch(
-      `https://fsa-puppy-bowl.herokuapp.com/api/2605-ftb-et-web-ft-corynne/players/${id}`,
-    );
+    const response = await fetch(`${API}/players/${id}`);
     const result = await response.json();
-    selectedPlayer = result.data;
-    console.log(fetchSinglePlayer());
+    selectedPlayer = result.data.player;
     render();
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
   }
-};
-/* function listPlayers() {
-  const $ul = document.createElement("ul");
-  $ul.replaceChildren.add("players");
-
-  const $players = players.map();
-} */
+}
 /**
  * Adds a new player to the roster via the API.
  * Once a player is added to the database, the new player
@@ -73,11 +60,20 @@ const fetchSinglePlayer = async (playerId) => {
  * new player object when you call it. How can we
  * create a new player object and then pass it to addNewPlayer()?
  */
+async function addNewPlayer(newPlayer) {
+  try {
+    await fetch(`${API}/players`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newPlayer),
+    });
 
-const addNewPlayer = async (newPlayer) => {
-  //TODO
-};
-
+    await fetchAllPlayers();
+    render();
+  } catch (err) {
+    console.error(err);
+  }
+}
 /**
  * Removes a player from the roster via the API.
  * Once the player is removed from the database,
@@ -88,11 +84,20 @@ const addNewPlayer = async (newPlayer) => {
  * Note: In order to call removePlayer() a player's id is required.
  * Unless we know the id of the player we are trying to remove, we cannot call removePlayer()
  */
+async function removePlayer(id) {
+  try {
+    await fetch(`${API}/players/${id}`, {
+      method: "DELETE",
+    });
 
-const removePlayer = async (playerId) => {
-  //TODO
-};
+    players = players.filter((p) => p.id !== id);
+    selectedPlayer = null;
 
+    render();
+  } catch (err) {
+    console.error(err);
+  }
+}
 /**
  * Updates html to display a list of all players or a single player page.
  *
@@ -109,34 +114,104 @@ const removePlayer = async (playerId) => {
  *    from the database and our current view without having to refresh
  *
  */
+const playerForm = document.querySelector("#addPuppy");
+
+playerForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(playerForm);
+
+  const newPlayer = {
+    name: formData.get("name"),
+    breed: formData.get("breed"),
+    imageUrl: formData.get("imageUrl"),
+  };
+
+  await addNewPlayer(newPlayer);
+});
+
+function playerListItem(player) {
+  const $li = document.createElement("li");
+
+  if (player.id === selectedPlayer?.id) {
+    $li.classList.add("selected");
+  }
+
+  $li.innerHTML = `
+    <a href="#selected">
+      <img id="profile" src="${player.imageUrl}" alt="Puppy named ${player.name}">
+      <p>${player.name}</p>
+    </a>
+  `;
+
+  $li.addEventListener("click", () => fetchSinglePlayer(player.id));
+
+  return $li;
+}
+
+function playerList() {
+  const $ul = document.createElement("ul");
+  $ul.classList.add("players");
+  $ul.replaceChildren(...players.map(playerListItem));
+  return $ul;
+}
+
+function SelectedPlayer() {
+  if (!selectedPlayer) {
+    const $p = document.createElement("p");
+    $p.textContent = "Please select a player to learn more.";
+    return $p;
+  }
+
+  const $section = document.createElement("section");
+
+  $section.innerHTML = `
+    <h3>${selectedPlayer.name} — ID #${selectedPlayer.id}</h3>
+    <p>Breed: ${selectedPlayer.breed}</p>
+    <p>Status: ${selectedPlayer.status}</p>
+    <img src="${selectedPlayer.imageUrl}" alt="Puppy named ${selectedPlayer.name}">
+    <button id="remove-player">Remove Player</button>
+  `;
+
+  return $section;
+}
 
 const render = () => {
   const $app = document.querySelector("#app");
+
   $app.innerHTML = `
-  <h1>Puppy Bowl Team Manager</h1>
-  <main>
-    <section>
-     <h2>Meet the Athletes!</h2>
-     <Athletes></Athletes>
-    </section>
-    <section id= "selected">
-    <h2>Athlete Specs</h2>
-    <SelectedAthlete></SelectedAthlete>
-    </section>
-  </main>`;
-  $app.querySelector("Athletes").replaceWith(async(fetchAllPlayers())); //change to relevant function when/if it exits
-  $app.querySelector("SelectedAthlete").replaceWith(fetchSinglePlayer()); //change to relevant function when/if it exits
+    <h1>Puppy Bowl Team Manager</h1>
+    <main>
+      <section id="list">
+        <h2>Meet the Athletes!</h2>
+        <ul></ul>
+      </section>
+
+      <section id="selected">
+        <div id="selected-athlete"></div>
+      </section>
+    </main>
+  `;
+
+  $app.querySelector("ul").replaceWith(playerList());
+
+  if (selectedPlayer) {
+    const newSection = SelectedPlayer();
+    const container = $app.querySelector("#selected-athlete");
+    container.replaceWith(newSection);
+
+    const removeBtn = newSection.querySelector("#remove-player");
+    removeBtn.addEventListener("click", () => removePlayer(selectedPlayer.id));
+  }
 };
 /**
  * Initializes the app by calling render
  * HOWEVER....
  */
-const init = async () => {
-  await fetchAllPlayers();
-  await fetchSinglePlayer();
+async function init() {
   //Before we render, what do we always need?
-
+  await fetchAllPlayers();
   render();
-};
+}
 
 init();
